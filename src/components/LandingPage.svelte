@@ -9,15 +9,12 @@
 <!-- Startbutton einfügen -->
 <div class="landingpage">
     <h1>Willkommen bei What's above you?</h1>
-    <p>
-        What's above you? ist eine Webanwendung, die dir die aktuelle Position
-        von Satelliten in Echtzeit anzeigt.
-    </p>
-    <p>
+    <p>Schau dir an, welche Satelliten sich gerade über dir befinden.</p>
+    <!-- <p>
         Du kannst die Satelliten in einer Tabelle anzeigen lassen oder sie auf
         einer Weltkarte visualisieren.
     </p>
-    <p>Wähle eine der beiden Optionen im Menü oben aus.</p>
+    <p>Wähle eine der beiden Optionen im Menü oben aus.</p> -->
     <button class="start-button" on:click={navigateToVisualisierung}
         >Start</button
     >
@@ -35,12 +32,12 @@
 
     h1 {
         font-size: 2em;
-        margin-bottom: 1em;
+        /* margin-bottom: em; */
     }
 
     p {
         font-size: 1.25em;
-        margin-bottom: 1em;
+        margin-bottom: 2em;
     }
 
     .start-button {
