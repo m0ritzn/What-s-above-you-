@@ -1,47 +1,66 @@
-# Svelte + Vite
+## Vorgaben Technische Voraussetzung
 
-This template should help get you started developing with Svelte in Vite.
+Diesem Projekt liegt die Aufgabenstellung voraus, eine interaktive App zum Themenbereich der Astronomie, zu erstellen. Umgesetzt werden sollte die App mit dem Svelte Framework. Die App spiegelt die über das Semester gelernten Inhalte wieder.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## API
 
-## Need an official Svelte framework?
+Unteranderem Pflicht für die Anwendung ist es, eine API zu verwenden. 
+Fündig geworden bin ich auf [N2YO.COM](http://N2YO.COM) mit der **N2YO.COM REST API v1**. Darin enthalten sind Daten zu Satelliten die aktuell im All unterwegs sind. Vor allem Informationen zur Position bzw. zukünftigen Positionen und zum Verwendungszweck der Satelliten. 
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+---
 
-## Technical considerations
+## Idee Visualisierung
 
-**Why use this over SvelteKit?**
+Klar war also meine App soll Informationen zu Satelliten bereitstellen, als eine Art Lern- bzw. Informationsanwendung. 
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+Herausgekommen ist eine Visualisierung, welche Satelliten visualisiert, die sich über einem bestimmten Punkt auf der Erde befinden. Genau genommen soll es sich bei dem Punkt um den Standort des Nutzers handeln. Daher auch der Name “What’s above you?”. Vorläufig wird in der Anwendung der Standort Schwäbisch Gmünd berücksichtigt. 
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+Angegeben wird der Ort in Koordinaten. Zudem wird ein Radius festgelegt in welchem über dem Punkt gesucht werden soll (0° - 90°)
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+[https://api.n2yo.com/rest/v1/satellite/above/48/9/0/10/0/&apiKey=](https://api.n2yo.com/rest/v1/satellite/above/48/9/0/10/0/&apiKey=H5W4P7-C4NVAN-VVAXWF-59LC)
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+Request: /above/{observer_lat}/{observer_lng}/{observer_alt}/{search_radius}/{category_id} 
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+Abrufbar sind für den Nutzer der App nun informationen über den Satelliten:
 
-**Why include `.vscode/extensions.json`?**
+Name
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+International Designator
 
-**Why enable `checkJs` in the JS template?**
+ID
 
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
+Launch Date
 
-**Why is HMR not preserving my local component state?**
+Altitude
 
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
+Koordinaten (lat und lng)
 
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+Der Nutzer hat die Wahl zwischen einer Visualisierung der Satelliten, wie sie über der Erde schweben und einer Tabellen-Ansicht. Die Tabelle bietet dem Nutzer neben den genannten Informationen zudem die Möglichkeit die aktuell vorhandenen Satelliten nach ihren Eigenschaften auf- und absteigend zu sortieren und dementsprechend zu vergleichen.
 
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
-```
+---
+
+## Code / Features
+
+Aus Coding Perspektive verbaute Features der Anwendung und Herausforderungen meinerseits, gibt es folgende:
+
+Die “Visualisierung” der Satelliten war wohl die komplizierteste Aufgabe. Vor allem im Bereich css. Die Anzeigehöhe der Satelliten ist auf deren Altitude Information gemappt. Dass die Satelliten alle vollständig sichtbar und nicht teilweise abgeschnitten über der Welt im Container erscheinen, gestaltete sich als Schwierigkeit.
+
+Hovert man mit der Maus über einen der abgebildeten Satelliten, bekommt man als Nutzer einen Tooltip zu sehen, welcher die bereits genannten Informationen über die jeweiligen Satelliten beinhaltet.
+
+Neben der Visualisierungsansicht, welche mit ihren fotorealistischen Abbildungen etwas an einen realistischen Blick aus dem All erinnern soll, lässt sich über die Navbar auf die Tabellenansicht navigieren. Das Feature Dort ist die Sortierfunktion, nach all den möglichen Kategorien.
+
+Im Hintergrund werden die Daten, welche Satelliten sich gerade über dem Nutzer befinden, alle 10 Sekunden aktualisieret, was man als Nutzer auch zu sehen bekommt, wenn sich der Inhalt verändert.
+
+---
+
+## Zukünftige Features?
+
+Um dem Namen “What’s above you?” gerecht zu werden, bietet es sich an den tatsächlichen Live Standort des Nutzers der Anwendung abzufragen und dementsprechend auch die Satelliten zu laden, welche sich aktuell wirklich über dem Nutzer befinden.
+
+Zudem könnte man die Anwendung wunderbar als Plattform Nutzen noch mehr Informationen, mittels weiteren Datenquellen, über die Satelliten darzustellen und die Satelliten auch dementsprechend unterschiedlich visualisieren, filtern etc..
+
+---
+
+Moritz Nussbaumer, Hochschule für Gestaltung Schwäbisch Gmünd - Programmiersprachen 3 SoSe 24
